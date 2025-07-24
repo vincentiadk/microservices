@@ -1,0 +1,6 @@
+services:
+  laravel.test:
+    command: >
+      php artisan octane:start --server=swoole --host=0.0.0.0 --port=80
+    ports:
+      - '${APP_PORT:-8000}:8000'

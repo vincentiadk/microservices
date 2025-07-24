@@ -1,0 +1,36 @@
+services:
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.2
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+                INSTALL_SWOOLE: true
+        image: sail-8.2/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-8000}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        volumes:
+            - './:/var/www/html'
+        networks: 
+            - sail
+        # depends_on dikosongkan atau dihapus karena tidak lagi bergantung pada mysql & redis dari docker
+        depends_on: []
+
+networks:
+    sail:
+        driver: bridge
+
+# volumes sail-mysql dan sail-redis bisa dihapus jika tidak lagi digunakan
+volumes:
+    sail-mysql:
+        driver: local
+    sail-redis:
+        driver: local
