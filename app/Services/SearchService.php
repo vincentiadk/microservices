@@ -20,7 +20,7 @@ class SearchService
         $this->solrEndpoint = config('services.solr.endpoint');
     }
 
-    public function search(string $query,  int $perPage = 10, int $page = 1, $searchField):  array
+    public function search(string $query,  int $perPage = 10, int $page = 1, $searchField = "all"):  array
     {
         // 1. Penerimaan query teks (Q) dari pengguna.
         $useCache = config('cache.use_cache');

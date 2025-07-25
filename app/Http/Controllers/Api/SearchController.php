@@ -24,7 +24,7 @@ class SearchController extends Controller
     {
         $query = $request->input('q', '');
         $page = $request->input('page', 1);
-        $searchField = $request->input('field');
+        $searchField = $request->input('field', 'all');
         $perPage = 10;
         
         $useCache = config('cache.use_cache'); // dari config/cache.php
