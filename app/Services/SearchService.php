@@ -30,7 +30,7 @@ class SearchService
         }
          // 2. Analisis query dengan menghitung jumlah kata (n).
         $wordCount = Str::wordCount($query);
-
+        
         // Panggil method private dengan parameter paginasi
         if ($wordCount === 1) {
             $solrResult = $this->searchWithStandard($query, $perPage, $page, $searchField);
@@ -120,7 +120,7 @@ class SearchService
             }
             //\Log::info($qf);
             switch($qf){
-                case 'standart':
+                case 'standard':
                     $params =  [
                         'q'  => $solrQuery,
                         'wt' => 'json', // Meminta response dalam format JSON
@@ -131,6 +131,7 @@ class SearchService
                         'start' => $start,
                         'tie' => 0.1,
                     ];
+                
                     break;
                 case 'ngram':
                     $sf =  $searchField == "all" ? "ts_ngram" : $searchField . '_ngram';
@@ -166,7 +167,6 @@ class SearchService
             );    // Batasi 5 hasil teratas per facet)
 
             $queryString = http_build_query($params);
-
             // 3. Definisikan field untuk facet secara terpisah
             $facetFields = ['klasbesar', 'author_s', 'subject_s', 'publishlocation_s', 'publisher_s', 'publishyear', 'worksheet_id']; // <-- Masukkan semua field facet di sini
 
@@ -177,16 +177,14 @@ class SearchService
             
             // 5. Gabungkan endpoint dengan query string untuk membuat URL final
             $finalUrl = $this->solrEndpoint . '?' . $queryString;
-
             // 6. Lakukan request HANYA dengan URL final
             $response = Http::get($finalUrl);
 
-            if ($response->failed()) {
-                return ['docs' => [], 'total' => 0, 'facets' => []];
-            }
+            //if ($response->failed()) {
+            //    return ['docs' => [], 'total' => 0, 'facets' => []];
+            //}
 
             $data = $response->json();
-            
             return [
                 'docs' => collect($data['response']['docs'] ?? [])->map(fn($item) => (object) $item),
                 'total' => $data['response']['numFound'] ?? 0,
