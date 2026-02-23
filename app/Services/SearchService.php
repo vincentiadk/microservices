@@ -118,7 +118,7 @@ class SearchService
             } else {
                 $mm_value = '75%';
             }
-            //\Log::info($qf);
+            
             switch($qf){
                 case 'standard':
                     $params =  [
@@ -138,7 +138,7 @@ class SearchService
                     if($searchField == 'title' || $searchField == 'author'){
                         $sf = $searchField. "_ngram";
                     }
-                    //\Log::info($sf);
+                    
                     $params =  [
                         'q'  => $solrQuery,
                         'wt' => 'json', // Meminta response dalam format JSON
@@ -160,6 +160,7 @@ class SearchService
                     break; 
 
             }
+            
             $params = array_merge($params, [
                 'facet' => 'true', // Mengaktifkan faceting
                 'facet.mincount' => 1, // Hanya tampilkan facet dengan jumlah > 0
