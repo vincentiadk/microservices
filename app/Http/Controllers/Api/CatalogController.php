@@ -82,8 +82,9 @@ class CatalogController extends Controller
     }
 
     // UPDATE a record (PUT/PATCH)
-    public function update(Request $request, Catalog $catalog)
+    public function update(Request $request, $id)
     {
+        $catalog = Catalog::find($id);
         $validatedData = $request->validate([
             'title' => 'sometimes|required|string|max:255',
             'author' => 'sometimes|required|string|max:255',
@@ -97,9 +98,11 @@ class CatalogController extends Controller
     }
 
     // DELETE a record (DELETE)
-    public function destroy(Catalog $catalog)
+    public function destroy($id)
     {
+        \Log::info($id);
+        $catalog = Catalog::find($id);
         $catalog->delete();
-        return response()->json(null, 204); // 204 No Content
+        return response()->json("delete catalog ID:$id success", 200); // 204 No Content
     }
 }

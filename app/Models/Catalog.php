@@ -14,6 +14,7 @@ class Catalog extends Model
         'published_year',
         'subject',
         'deweyno',
-        'klasbesar'
+        'klasbesar',
+        'create_by'
     ];
 }

@@ -11,8 +11,9 @@ if (config('services.mode') === 'MONO' || config('services.mode') === 'SEARCH') 
 
 // Hanya aktif jika mode MONO atau CRUD
 if (config('services.mode') === 'MONO' || config('services.mode') === 'CRUD') {
+    Route::get('/catalogs', [CatalogController::class, 'index']);
     Route::get('/catalogs/{id}', [CatalogController::class, 'show']);
     Route::post('/catalogs', [CatalogController::class, 'store']);
     Route::post('/catalogs/{id}', [CatalogController::class, 'update']);
-    Route::post('/catalogs/{id}', [CatalogController::class, 'destroy']); // ganti POST jadi DELETE (lebih RESTful)
+    Route::post('/catalogs/destroy/{id}', [CatalogController::class, 'destroy']); // ganti POST jadi DELETE (lebih RESTful)
 }
