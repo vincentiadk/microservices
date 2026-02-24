@@ -10,7 +10,7 @@ class WebSearchController extends Controller
 {
     public function index(Request $request, SearchService $searchService)
     {
-        $query = $request->input('q', '');
+        $query = strtolower($request->input('q', ''));
         $page = $request->input('page', 1);
         $searchField = $request->input('field');
         $perPage = 10;
